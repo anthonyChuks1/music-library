@@ -104,12 +104,12 @@ const library = {
   addTrack: function(name, artist, album) {
 
     let trackId = this.generateUid();
-    while (this.tracks[trackId] || this.playlists[trackId]) {
+    while (this.tracks[trackId]) {
       console.log(`${trackId} already exists. Generating new track ID...`, "\n");
       trackId = this.generateUid();
     }
     /**Check if empty string */
-    if (!name || !artist || !album) {
+    if (!name.trim() || !artist.trim() || !album.trim()) {
       console.log(`Cannot add track. Please use complete information...`, "\n");
       return;
     }
@@ -147,7 +147,7 @@ const library = {
   printSearchResults: function(query) {
     let found = false;
     if (!query || !(query.trim())) {
-      console.log(`Nothing to search...`);
+      console.log(`Nothing to search for...`);
       return;
     }
     console.log(`Searching ${query} in Tracks`);
