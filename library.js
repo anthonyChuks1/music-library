@@ -47,7 +47,7 @@ const printPlaylists = function (library) {
               library.playlists[playlist].tracks.forEach(track => {
                      count = count + 1;
               });
-              console.log(`${playlist}: ${library.playlists[playlist].name} - ${count} tracks`);
+              console.log(`${playlist}: ${library.playlists[playlist].name} - ${count} tracks \n`);
        }
 
 };
@@ -62,6 +62,7 @@ const printTracks = function (library) {
        for (let track in library.tracks) {
               console.log(`${track} : ${library.tracks[track].name} by ${library.tracks[track].artist} (${library.tracks[track].album})`);
        }
+       console.log('\n');
 };
 
 
@@ -86,6 +87,7 @@ const printPlaylist = function (playlistId, library) {
               let { id, name, artist, album } = library.tracks[element];
               console.log(`${id}: ${name} by ${artist} (${album})`);
        });
+       console.log("\n");
 
 };
 
@@ -99,11 +101,9 @@ const addTrackToPlaylist = function (trackId, playlistId, library) {
               printPlaylist(playlistId, library);
        } else {
 
-              console.log(`Cannot add ${trackId} to ${playlistId}...\nPlease use an already available track and playlist.`);
-              if (!(library.tracks[trackId])) {
-                     printPlaylist(playlistId, library);
-              } else if (!(library.playlists[playlistId])) {
-                     console.log(`Cannot display ${playlistId} Playlist.. It does not exist`);
+              console.log(`Cannot add ${trackId} to ${playlistId}...\nPlease use an already available track and playlist.\n`);
+              if (!(library.playlists[playlistId])) {
+                     console.log(`Cannot display ${playlistId} Playlist.. It does not exist \n`);
               }
        }
 
@@ -122,18 +122,17 @@ const addTrack = function (name, artist, album, library) {
 
        let trackId = generateUid();
        while (library.tracks[trackId] || library.playlists[trackId]) {
-              console.log(`${trackId} already exists. Generating new track ID...`);
+              console.log(`${trackId} already exists. Generating new track ID...`, "\n");
               trackId = generateUid();
        }
-       console.log(`$Testing UUID Gen: ${trackId}`);
        /**Check if empty string */
        if (!name || !artist || !album) {
-              console.log(`Cannot add track. Please use complete information...`);
+              console.log(`Cannot add track. Please use complete information...`, "\n");
               return;
        }
 
        library.tracks[trackId] = { id: trackId, name, artist, album };
-       console.log(`Added track: ${trackId}`, library.tracks[trackId]);
+       console.log(`Added track: ${trackId}`, library.tracks[trackId], "\n");
 
 };
 
@@ -152,7 +151,7 @@ const addPlaylist = function (name) {
        }
 
        library.playlists[playlistId] = { id: playlistId, name, tracks: [] };
-       console.log(`Added playlist : ${library.playlists[playlistId].name}`, library.playlists[playlistId]);
+       console.log(`Added playlist : ${library.playlists[playlistId].name}`, library.playlists[playlistId], "\n");
 
 
 
@@ -166,8 +165,11 @@ const addPlaylist = function (name) {
 // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/search
 const printSearchResults = function (query, library) {
        let found = false;
-       if (!query) {
-              console.log(`Nothing to search...`);
+       //console.log(query.split("").forEach(char => { if (char === ' ') {return true} }));
+       
+       if (!query || query.trim() === '') {
+              console.log(`Nothing to search...\n`);
+              return;
        }
        console.log(`Searching ${query} in Tracks`);
        console.log(`Results: `);
@@ -184,21 +186,25 @@ const printSearchResults = function (query, library) {
        if (!found) {
               console.log(`No Search Result for "${query}"...`);
        }
+       console.log("\n");
 };
 
 /**----------------------TEST---------------------------- */
-printPlaylists(library);
-printTracks(library);
-printPlaylist('p01', library);
+//printPlaylists(library);
+// printTracks(library);
+// printPlaylist('p01', library);
 addTrackToPlaylist('t03', 'p01', library);
 addTrackToPlaylist('t04', 'p01', library);
 addTrackToPlaylist('t03', 'p03', library);
-printPlaylist('p02', library);
+//printPlaylist('p02', library);
 addTrackToPlaylist('t02', 'p02', library);
 addTrack('Afterimage', 'Space Sailors', 'Tapes, Vol.2', library)
 addPlaylist('Oddling');
-printTracks(library);
-printPlaylists(library)
+// printTracks(library);
+// printPlaylists(library)
 
-printSearchResults('50', library)
+printSearchResults('sp', library);
+printSearchResults('', library);
+printSearchResults(' ', library);
+printSearchResults('     ', library);
 
