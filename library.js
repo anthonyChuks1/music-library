@@ -35,7 +35,7 @@ const library = {
        // prints a list of all playlists, in the form:
        // p01: Coding Music - 2 tracks
        // p02: Other Playlist - 1 tracks
-       printPlaylist: () => {
+       printPlaylists: function () {
               console.log("\n");
               for (let playlist in this.playlists) {
                      let count = 0;
@@ -50,7 +50,7 @@ const library = {
        // t01: Code Monkey by Jonathan Coulton (Thing a Week Three)
        // t02: Model View Controller by James Dempsey (WWDC 2003)
        // t03: Four Thirty-Three by John Cage (Woodstock 1952)
-       printTracks: () => {
+       printTracks: function () {
               console.log("\n");
               for (let track in this.tracks) {
                      console.log(`${track} : ${this.tracks[track].name} by ${this.tracks[track].artist} (${this.tracks[track].album})`);
@@ -61,15 +61,11 @@ const library = {
        // p01: Coding Music - 2 tracks
        // t01: Code Monkey by Jonathan Coulton (Thing a Week Three)
        // t02: Model View Controller by James Dempsey (WWDC 2003)
-       printPlaylist: (playlistId) => {
+       printPlaylist: function (playlistId) {
               console.log("\n");
               let countTracks = 0;
               this.playlists[playlistId].tracks.forEach(element => {
-
-
                      countTracks = countTracks + 1;
-
-
               });
 
               console.log(`${playlistId}: ${this.playlists[playlistId].name} - ${countTracks} tracks`);
@@ -82,12 +78,12 @@ const library = {
 
        },
        // adds an existing track to an existing playlist
-       addTrackToPlaylist: (trackId, playlistId) => {
+       addTrackToPlaylist: function (trackId, playlistId) {
               console.log("\n");
               if (this.tracks[trackId] && this.playlists[playlistId]) {
                      this.playlists[playlistId].tracks.push(trackId);
                      console.log(`--Added ${trackId} to ${playlistId}--`);
-                     printPlaylist(playlistId, this);
+                     this.printPlaylist(playlistId);
               } else {
 
                      console.log(`Cannot add ${trackId} to ${playlistId}...\nPlease use an already available track and playlist.\n`);
@@ -101,18 +97,18 @@ const library = {
 
        // generates a unique id
        // (already implemented: use this for addTrack and addPlaylist)
-       generateUid: () => {
+       generateUid: function (){
               return Math.floor((1 + Math.random()) * 0x10000).toString(16).substring(1);
        },
 
 
        // adds a track to the library
-       addTrack : (name, artist, album) => {
+       addTrack: function (name, artist, album) {
 
-              let trackId = generateUid();
+              let trackId = this.generateUid();
               while (this.tracks[trackId] || this.playlists[trackId]) {
                      console.log(`${trackId} already exists. Generating new track ID...`, "\n");
-                     trackId = generateUid();
+                     trackId = this.generateUid();
               }
               /**Check if empty string */
               if (!name || !artist || !album) {
@@ -127,11 +123,11 @@ const library = {
 
 
        // adds a playlist to the library
-       addPlaylist: (name) => {
-              let playlistId = generateUid();
+       addPlaylist:function  (name){
+              let playlistId = this.generateUid();
               while (this.tracks[playlistId] || this.playlists[playlistId]) {
                      console.log(`${playlistId} already exists. Generating new track ID...`);
-                     playlistId = generateUid();
+                     playlistId = this.generateUid();
               }
 
               if (!name) {
@@ -150,6 +146,28 @@ const library = {
        // where the name, artist or album contains the query string (case insensitive)
        // tip: use "string".search("tri")
        // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/search
+       printSearchResults : function (query) {
+              let found = false;
+              if (!query || !(query.trim())) {
+                     console.log(`Nothing to search...`);
+                     return;
+              }
+              console.log(`Searching ${query} in Tracks`);
+              console.log(`Results: `);
+              for (let track in this.tracks) {
+                     let { name, artist, album } = this.tracks[track];
+                     //console.log(`Testing Print search`, {name, artist, album});
+                     if (name.toLowerCase().search(query.toLowerCase()) !== -1
+                            || artist.toLowerCase().search(query.toLowerCase()) !== -1
+                            || album.toLowerCase().search(query.toLowerCase()) !== -1) {
+                            console.log(this.tracks[track]);
+                            found = true;
+                     }
+              }
+              if (!found) {
+                     console.log(`No Search Result for "${query}"...`);
+              }
+       }
 }
 
 /**----------------------TEST---------------------------- */
@@ -166,7 +184,7 @@ library.addPlaylist('Oddling');
 library.printTracks();
 library.printPlaylists()
 
-library.printSearchResults('sp', );
+library.printSearchResults('sp',);
 library.printSearchResults('');
 library.printSearchResults(' ');
 library.printSearchResults('     ');
