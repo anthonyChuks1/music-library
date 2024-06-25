@@ -153,21 +153,21 @@ const this = {
 }
 
 /**----------------------TEST---------------------------- */
-printPlaylists(this);
-printTracks(this);
-printPlaylist('p01', this);
-addTrackToPlaylist('t03', 'p01', this);
-addTrackToPlaylist('t04', 'p01', this);
-addTrackToPlaylist('t03', 'p03', this);
-printPlaylist('p02', this);
-addTrackToPlaylist('t02', 'p02', this);
-addTrack('Afterimage', 'Space Sailors', 'Tapes, Vol.2', this)
-addPlaylist('Oddling');
-printTracks(this);
-printPlaylists(this)
+library.printPlaylists();
+library.printTracks();
+library.printPlaylist('p01');
+library.addTrackToPlaylist('t03', 'p01');
+library.addTrackToPlaylist('t04', 'p01');
+library.addTrackToPlaylist('t03', 'p03');
+library.printPlaylist('p02');
+library.addTrackToPlaylist('t02', 'p02');
+library.addTrack('Afterimage', 'Space Sailors', 'Tapes, Vol.2')
+library.addPlaylist('Oddling');
+library.printTracks();
+library.printPlaylists()
 
-printSearchResults('sp', this);
-printSearchResults('', this);
-printSearchResults(' ', this);
-printSearchResults('     ', this);
+library.printSearchResults('sp', );
+library.printSearchResults('');
+library.printSearchResults(' ');
+library.printSearchResults('     ');
 
