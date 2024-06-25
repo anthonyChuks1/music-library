@@ -156,7 +156,6 @@ const library = {
               console.log(`Results: `);
               for (let track in this.tracks) {
                      let { name, artist, album } = this.tracks[track];
-                     //console.log(`Testing Print search`, {name, artist, album});
                      if (name.toLowerCase().search(query.toLowerCase()) !== -1
                             || artist.toLowerCase().search(query.toLowerCase()) !== -1
                             || album.toLowerCase().search(query.toLowerCase()) !== -1) {
