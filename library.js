@@ -165,7 +165,6 @@ const addPlaylist = function (name) {
 // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/search
 const printSearchResults = function (query, library) {
        let found = false;
-       //console.log(query.split("").forEach(char => { if (char === ' ') {return true} }));
        
        if (!query || query.trim() === '') {
               console.log(`Nothing to search...\n`);
@@ -175,7 +174,6 @@ const printSearchResults = function (query, library) {
        console.log(`Results: `);
        for (let track in library.tracks) {
               let { name, artist, album } = library.tracks[track];
-              //console.log(`Testing Print search`, {name, artist, album});
               if (name.toLowerCase().search(query.toLowerCase()) !== -1
                      || artist.toLowerCase().search(query.toLowerCase()) !== -1
                      || album.toLowerCase().search(query.toLowerCase()) !== -1) {
@@ -190,18 +188,18 @@ const printSearchResults = function (query, library) {
 };
 
 /**----------------------TEST---------------------------- */
-//printPlaylists(library);
-// printTracks(library);
-// printPlaylist('p01', library);
+printPlaylists(library);
+ printTracks(library);
+ printPlaylist('p01', library);
 addTrackToPlaylist('t03', 'p01', library);
 addTrackToPlaylist('t04', 'p01', library);
 addTrackToPlaylist('t03', 'p03', library);
-//printPlaylist('p02', library);
+printPlaylist('p02', library);
 addTrackToPlaylist('t02', 'p02', library);
 addTrack('Afterimage', 'Space Sailors', 'Tapes, Vol.2', library)
 addPlaylist('Oddling');
-// printTracks(library);
-// printPlaylists(library)
+ printTracks(library);
+ printPlaylists(library)
 
 printSearchResults('sp', library);
 printSearchResults('', library);
