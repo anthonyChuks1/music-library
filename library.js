@@ -1,4 +1,4 @@
-const this = {
+const library = {
        tracks: {
               t01: {
                      id: "t01",
