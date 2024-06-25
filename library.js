@@ -118,13 +118,43 @@ const generateUid = function () {
 
 
 // adds a track to the library
-const addTrack = function (name, artist, album) {
+const addTrack = function (name, artist, album, library) {
+
+       let trackId = generateUid();
+       while (library.tracks[trackId] || library.playlists[trackId]) {
+              console.log(`${trackId} already exists. Generating new track ID...`);
+              trackId = generateUid();
+       }
+       console.log(`$Testing UUID Gen: ${trackId}`);
+       /**Check if empty string */
+       if (!name || !artist || !album) {
+              console.log(`Cannot add track. Please use complete information...`);
+              return;
+       }
+
+       library.tracks[trackId] = { id: trackId, name, artist, album };
+       console.log(`Added track: ${trackId}`, library.tracks[trackId]);
 
 };
 
 
 // adds a playlist to the library
 const addPlaylist = function (name) {
+       let playlistId = generateUid();
+       while (library.tracks[playlistId] || library.playlists[playlistId]) {
+              console.log(`${playlistId} already exists. Generating new track ID...`);
+              playlistId = generateUid();
+       }
+
+       if (!name) {
+              console.log(`Please give the playlist a name...`);
+              return;
+       }
+
+       library.playlists[playlistId] = { id: playlistId, name, tracks: [] };
+       console.log(`Added playlist : ${library.playlists[playlistId].name}`, library.playlists[playlistId]);
+
+
 
 };
 
@@ -134,8 +164,26 @@ const addPlaylist = function (name) {
 // where the name, artist or album contains the query string (case insensitive)
 // tip: use "string".search("tri")
 // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/search
-const printSearchResults = function (query) {
-
+const printSearchResults = function (query, library) {
+       let found = false;
+       if (!query) {
+              console.log(`Nothing to search...`);
+       }
+       console.log(`Searching ${query} in Tracks`);
+       console.log(`Results: `);
+       for (let track in library.tracks) {
+              let { name, artist, album } = library.tracks[track];
+              //console.log(`Testing Print search`, {name, artist, album});
+              if (name.toLowerCase().search(query.toLowerCase()) !== -1
+                     || artist.toLowerCase().search(query.toLowerCase()) !== -1
+                     || album.toLowerCase().search(query.toLowerCase()) !== -1) {
+                     console.log(library.tracks[track]);
+                     found = true;
+              }
+       }
+       if (!found) {
+              console.log(`No Search Result for "${query}"...`);
+       }
 };
 
 /**----------------------TEST---------------------------- */
@@ -147,5 +195,10 @@ addTrackToPlaylist('t04', 'p01', library);
 addTrackToPlaylist('t03', 'p03', library);
 printPlaylist('p02', library);
 addTrackToPlaylist('t02', 'p02', library);
+addTrack('Afterimage', 'Space Sailors', 'Tapes, Vol.2', library)
+addPlaylist('Oddling');
+printTracks(library);
+printPlaylists(library)
 
+printSearchResults('50', library)
 
